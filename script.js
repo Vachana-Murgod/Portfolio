@@ -46,21 +46,27 @@ function reveal(){
     }
   }
 }
+const form = document.getElementById('form');
 
-document.addEventListener('DOMContentLoaded', function () {
+form.addEventListener('submit', async (e) => {
+  e.preventDefault(); // Prevent default form submission
 
-  // Form submission
-  const contactForm = document.querySelector('.contact-form');
-
-  contactForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const name = document.querySelector('input[name="name"]').value;
-    const email = document.querySelector('input[name="email"]').value;
-    const message = document.querySelector('textarea[name="message"]').value; 
-
-    console.log('Name:', name);
-    console.log('Email:', email);
-    console.log('Message:', message); 
+  // Send the form data asynchronously using Fetch API
+  const formData = new FormData(form);
+  const response = await fetch(form.action, {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'Accept': 'application/json'
+    }
   });
+
+  // If the response is successful, show a success message
+  if (response.ok) {
+    alert('Message sent successfully!');
+    form.reset(); // Reset the form
+  } else {
+    // If there's an error, show an error message
+    alert('There was a problem sending your message. Please try again later.');
+  }
 });
