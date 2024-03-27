@@ -1,0 +1,93 @@
+From 850f3d566f5f775a856ee58c4b892dc534c3842c Mon Sep 17 00:00:00 2001
+From: vachana <murgodvachana@gmail.com>
+Date: Wed, 27 Mar 2024 22:31:43 +0530
+Subject: [PATCH] Portfolio: Send-Bug-Resolved
+
+Signed-off-by: vachana <murgodvachana@gmail.com>
+---
+ index.html |  6 +++---
+ script.js  | 38 ++++++++++++++++++++++----------------
+ 2 files changed, 25 insertions(+), 19 deletions(-)
+
+diff --git a/index.html b/index.html
+index 68bd4a9..2fe8b45 100644
+--- a/index.html
++++ b/index.html
+@@ -139,7 +139,7 @@
+         </div>
+         <div class="card reveal">
+           <div class="card-img">
+-            <a href="https://github.com/Vachana-Murgod/age-calculator.git">
++            <a href="https://github.com/Vachana-Murgod/Age-Calculator">
+             <img src="https://play-lh.googleusercontent.com/my-QwEVsbjuC2ItmR_CWj1OkpkyF4lSzf4YNVZXCpnjIlUJIjNp7fe11HORCKjMhZQ" alt="age calculator" /></a>
+            </div>
+            <h1>Age Calculator</h1>
+@@ -190,7 +190,7 @@
+           <div class="row">
+             <div class="contact-form reveal">
+               <h3>Send Message</h3>
+-              <form action="your_form_processing_script.php" method="post"> 
++              <form id="form" action="https://formspree.io/f/mleqpgka" method="POST">
+                 <div class="input-box">
+                   <input type="text" name="name" value="" placeholder="Name" required/>
+                 </div>
+@@ -201,7 +201,7 @@
+                   <textarea name="message" placeholder="Message" required></textarea>
+                 </div>
+                 <div class="input-box">
+-                  <input type="submit" class="send-btn" value="Send" />
++                  <button type="submit" class="send-btn" >Send</button>
+                 </div>
+               </form>
+             </div>
+diff --git a/script.js b/script.js
+index bbbe01b..a75ebd7 100644
+--- a/script.js
++++ b/script.js
+@@ -46,21 +46,27 @@ function reveal(){
+     }
+   }
+ }
+-
+-document.addEventListener('DOMContentLoaded', function () {
+-
+-  // Form submission
+-  const contactForm = document.querySelector('.contact-form');
+-
+-  contactForm.addEventListener('submit', function (e) {
+-    e.preventDefault();
+-
+-    const name = document.querySelector('input[name="name"]').value;
+-    const email = document.querySelector('input[name="email"]').value;
+-    const message = document.querySelector('textarea[name="message"]').value; 
+-
+-    console.log('Name:', name);
+-    console.log('Email:', email);
+-    console.log('Message:', message); 
++const form = document.getElementById('form');
++
++form.addEventListener('submit', async (e) => {
++  e.preventDefault(); // Prevent default form submission
++
++  // Send the form data asynchronously using Fetch API
++  const formData = new FormData(form);
++  const response = await fetch(form.action, {
++    method: 'POST',
++    body: formData,
++    headers: {
++      'Accept': 'application/json'
++    }
+   });
++
++  // If the response is successful, show a success message
++  if (response.ok) {
++    alert('Message sent successfully!');
++    form.reset(); // Reset the form
++  } else {
++    // If there's an error, show an error message
++    alert('There was a problem sending your message. Please try again later.');
++  }
+ });
+-- 
+2.43.0.windows.1
+
